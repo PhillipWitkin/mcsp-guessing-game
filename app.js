@@ -30,12 +30,12 @@ function promptForInt(message){
     return guessNum;
 }
 
+// play a single round
 function play(){
-    const name = prompt("What is your name?");
     // create a random number called 'numTarget'
     const numTarget = getRandomIntInclusive(minGuess, maxGuess);
     // convert string to int, ask for another number if not a valid integer
-    let guess = promptForInt(`Hi ${name}, guess a number between ${minGuess} and ${maxGuess}`);
+    let guess = promptForInt(`Hi ${playerName}, guess a number between ${minGuess} and ${maxGuess}`);
     
     console.log(`User guessed ${guess}`);
     console.log("The number was ", numTarget);
@@ -45,19 +45,36 @@ function play(){
     // repeat until user guesses correctly
     while (guess !== numTarget) {
         if (guess < numTarget){
-            guess = promptForInt(`Sorry ${name}, guess Higher`);
+            guess = promptForInt(`Sorry ${playerName}, guess Higher`);
         } else if (guess > numTarget){
-            guess = promptForInt(`Sorry ${name}, guess Lower`)
+            guess = promptForInt(`Sorry ${playerName}, guess Lower`)
         }
         guesses.push(guess);
     }
     // alert correct when loop exits
     const guestHistoryStr = guesses.join(); // convert guesses array to string
-    alert(`That's Correct ${name}! It only took you ${guesses.length} guesses, which were: ${guestHistoryStr} `);
+    alert(`That's Correct ${playerName}! It only took you ${guesses.length} guesses, which were: ${guestHistoryStr} `);
 }
 
+function shouldUserPlayAgain(){
+    let shouldPlayAgain = prompt("Would you like to play again? Please enter y/n");
+    // user prompt input to determine if they want to play again
+    return (shouldPlayAgain.toLowerCase() === "y") ? true : false;
+}
+
+// main program start
+const playerName = prompt("What is your name?");
 play();
-
-
-
-
+let playAgain = shouldUserPlayAgain();
+while (playAgain){
+    play();
+    playAgain = shouldUserPlayAgain();    
+}
+alert(`Thanks for playing, ${playerName}`);
+    
+    
+// let playAgain = false;
+// do {
+//     play();
+//     playAgain = shouldUserPlayAgain();
+// } while (playAgain);
